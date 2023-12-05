@@ -22,3 +22,17 @@ public class DemoApplication {
     }
 
 }
+
+/*
+运行顺序
+
+HelloApplicationRunner: hello spring boot
+HelloCommandLineRunner: hello spring boot
+ContextClosedEvent: application
+AfterContextClosedEvent: application
+*/
+
+
+
+
+
