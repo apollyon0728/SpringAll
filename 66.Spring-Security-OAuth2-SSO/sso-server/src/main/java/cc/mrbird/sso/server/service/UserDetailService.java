@@ -12,10 +12,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author MrBird
+ *
+ * 加载用户特定数据的核心接口。
+ * 它在整个框架中用作用户 DAO，并且是DaoAuthenticationProvider使用的策略。
+ * 该接口仅需要一种只读方法，从而简化了对新数据访问策略的支持
  */
 @Configuration
 public class UserDetailService implements UserDetailsService {
 
+    /**
+     * 注入了`PasswordEncoder`对象，该对象用于密码加密，注入前需要手动配置。
+     * 本例是在`WebSecurityConfig`中配置它
+     */
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -42,6 +50,9 @@ public class UserDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        // FIXME ：my: 实际的生产环境，从数据库中或其他来源读取用户信息进行设置
+
         MyUser user = new MyUser();
         user.setUserName(username);
         user.setPassword(this.passwordEncoder.encode("123456"));

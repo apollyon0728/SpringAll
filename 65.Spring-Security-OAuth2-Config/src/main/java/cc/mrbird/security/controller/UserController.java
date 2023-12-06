@@ -16,6 +16,13 @@ import java.nio.charset.StandardCharsets;
 @RestController
 public class UserController {
 
+    /**
+     * 尝试从HTTP请求头中获取Authorization头，并从中提取JWT。然后，它使用一个密钥（在这里是"test_key"）来解析JWT。
+     *
+     * @param authentication
+     * @param request
+     * @return
+     */
     @GetMapping("index")
     public Object index(@AuthenticationPrincipal Authentication authentication, HttpServletRequest request) {
         String header = request.getHeader("Authorization");

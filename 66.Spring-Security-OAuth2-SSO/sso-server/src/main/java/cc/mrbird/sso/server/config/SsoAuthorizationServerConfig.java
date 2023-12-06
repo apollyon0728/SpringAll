@@ -16,6 +16,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 /**
  * @author MrBird
+ *
+ * 通过使用 AuthorizationServerConfigurerAdapter，
+ * 可以方便地配置授权服务器的相关设置，包括客户端详情、授权服务断点和授权服务安全配置。
  */
 @Configuration
 @EnableAuthorizationServer
