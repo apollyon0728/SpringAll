@@ -54,6 +54,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
             sessionStrategy.removeAttribute(servletWebRequest, ValidateController.SESSION_KEY_IMAGE_CODE);
             throw new ValidateCodeException("验证码已过期！");
         }
+
+        // FIXME 图形验证码是否一致 （用户请求发送过来的 和 sessionStrategy 中的进行对比）
         if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不正确！");
         }

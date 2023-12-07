@@ -40,6 +40,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
+    /**
+     * 验证验证码的有效性
+     * @param servletWebRequest 请求的ServletWebRequest对象
+     * @throws ServletRequestBindingException 如果无法获取请求参数时抛出异常
+     * @throws ValidateCodeException 如果验证码验证失败时抛出异常
+     */
     private void validateCode(ServletWebRequest servletWebRequest) throws ServletRequestBindingException {
         ImageCode codeInSession = (ImageCode) sessionStrategy.getAttribute(servletWebRequest, ValidateController.SESSION_KEY_IMAGE_CODE);
         String codeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "imageCode");

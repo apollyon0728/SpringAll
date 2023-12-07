@@ -41,6 +41,12 @@ public class SmsCodeFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
+    /**
+     * 验证验证码的有效性
+     * @param servletWebRequest 请求对象
+     * @throws ServletRequestBindingException 请求参数绑定异常
+     * @throws ValidateCodeException 验证码异常
+     */
     private void validateCode(ServletWebRequest servletWebRequest) throws ServletRequestBindingException {
         String smsCodeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "smsCode");
         String mobileInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "smsCode");
@@ -50,13 +56,17 @@ public class SmsCodeFilter extends OncePerRequestFilter {
         if (StringUtils.isBlank(smsCodeInRequest)) {
             throw new ValidateCodeException("验证码不能为空！");
         }
+
         if (codeInSession == null) {
             throw new ValidateCodeException("验证码不存在！");
         }
+
         if (codeInSession.isExpire()) {
             sessionStrategy.removeAttribute(servletWebRequest, ValidateController.SESSION_KEY_IMAGE_CODE);
             throw new ValidateCodeException("验证码已过期！");
         }
+
+        // FIXME 手机验证码是否一致 （用户请求发送过来的 和 sessionStrategy 中的进行对比）
         if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), smsCodeInRequest)) {
             throw new ValidateCodeException("验证码不正确！");
         }
