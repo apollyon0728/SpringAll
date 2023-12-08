@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * 该类需要实现AuthenticationProvider的两个抽象方法
  *
+ * SmsAuthenticationFilter(AbstractAuthenticationProcessingFilter) -> AuthenticationManager
+ *  -> SmsAuthenticationProvider(AuthenticationProvider) -> UserDetailService -> UserDetails -> Authentication
  */
 public class SmsAuthenticationProvider implements AuthenticationProvider {
 

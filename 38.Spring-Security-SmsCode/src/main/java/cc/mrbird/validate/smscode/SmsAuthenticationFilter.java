@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  * 同样的复制UsernamePasswordAuthenticationFilter源码并稍作修改
  *
  * https://mrbird.cc/Spring-Security-SmsCode.html
+ *
+ * SmsAuthenticationFilter(AbstractAuthenticationProcessingFilter) -> AuthenticationManager
+ *  -> SmsAuthenticationProvider(AuthenticationProvider) -> UserDetailService -> UserDetails -> Authentication
  */
 public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 

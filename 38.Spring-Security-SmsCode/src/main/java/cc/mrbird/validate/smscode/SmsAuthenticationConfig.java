@@ -13,6 +13,15 @@ import org.springframework.stereotype.Component;
 
 
 /**
+ * Spring Security短信验证码登录
+ * https://mrbird.cc/Spring-Security-SmsCode.html
+ *
+ * SmsAuthenticationFilter(AbstractAuthenticationProcessingFilter) -> AuthenticationManager
+ *  -> SmsAuthenticationProvider(AuthenticationProvider) -> UserDetailService -> UserDetails -> Authentication
+ *
+ * 在定义完所需的组件后，我们需要进行一些配置，将这些组件组合起来形成一个和上面流程图对应的流程。创建一个配置类
+ *
+ *
  * `SecurityConfigurerAdapter`是Spring Security中一个重要的抽象类，它提供了配置Spring Security安全性的基础方法。
  * 通常，我们会通过继承`SecurityConfigurerAdapter`来创建自定义的`WebSecurityConfigurerAdapter`，
  * 以便在Web应用场景下配置Spring Security。
@@ -42,6 +51,15 @@ public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSe
 
     /**
      * https://mrbird.cc/Spring-Security-SmsCode.html
+     *
+     * 在流程中第一步需要配置SmsAuthenticationFilter，分别设置了AuthenticationManager、AuthenticationSuccessHandler和AuthenticationFailureHandler属性。这些属性都是来自SmsAuthenticationFilter继承的AbstractAuthenticationProcessingFilter类中。
+     *
+     * 第二步配置SmsAuthenticationProvider，这一步只需要将我们自个的UserDetailService注入进来即可。
+     *
+     * 最后调用HttpSecurity的authenticationProvider方法指定了AuthenticationProvider为SmsAuthenticationProvider，并将SmsAuthenticationFilter过滤器添加到了UsernamePasswordAuthenticationFilter后面。
+     *
+     * 到这里我们已经将短信验证码认证的各个组件组合起来了，最后一步需要做的是配置短信验证码校验过滤器，并且将短信验证码认证流程加入到Spring Security中。在BrowserSecurityConfig的configure方法中添加配置：
+     *
      *
      * 在这个流程中，我们自定义了一个名为SmsAuthenticationFitler的过滤器来拦截短信验证码登录请求，并将手机号码封装到一个叫SmsAuthenticationToken的对象中。在Spring Security中，认证处理都需要通过AuthenticationManager来代理，所以这里我们依旧将SmsAuthenticationToken交由AuthenticationManager处理。
      *

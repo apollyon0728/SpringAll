@@ -16,6 +16,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ *
+ * OncePerRequestFilter
+ *
+ * 过滤器基类，旨在保证在任何 Servlet 容器上每个请求分派单次执行。它提供了带有 HttpServletRequest 和 HttpServletResponse 参数的doFilterInternal方法。
+ *
+ * 从 Servlet 3.0 开始，过滤器可以作为单独线程中发生的REQUEST或ASYNC调度的一部分来调用。
+ * 可以在web.xml中配置过滤器是否应参与异步调度。然而，在某些情况下，Servlet 容器采用不同的默认配置。
+ * 因此，子类可以重写shouldNotFilterAsyncDispatch()方法来静态声明它们是否确实应该在两种类型的分派期间调用一次
+ * ，以便提供线程初始化、日志记录、安全性等。此机制补充但不会取代在web.xml中使用调度程序类型配置过滤器的需要。
+ *
+ * 子类可以使用isAsyncDispatch(HttpServletRequest)来确定何时调用过滤器作为异步调度的一部分，
+ * 并使用isAsyncStarted(HttpServletRequest)来确定何时将请求置于异步模式，因此当前调度不会是最后一个对于给定的请求。
+ *
+ * 另一种也发生在其自己线程中的调度类型是ERROR 。如果子类希望静态声明是否应在错误分派期间调用一次，
+ * 则可以重写shouldNotFilterErrorDispatch() 。
+ * getAlreadyFilteredAttributeName方法确定如何识别请求已被过滤。默认实现基于具体过滤器实例的配置名称。
+ *
+ *
+ * SmsAuthenticationFilter(AbstractAuthenticationProcessingFilter) -> AuthenticationManager
+ *  -> SmsAuthenticationProvider(AuthenticationProvider) -> UserDetailService -> UserDetails -> Authentication
+ */
 @Component
 public class SmsCodeFilter extends OncePerRequestFilter {
 

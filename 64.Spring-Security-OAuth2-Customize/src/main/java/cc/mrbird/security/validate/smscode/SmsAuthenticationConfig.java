@@ -11,6 +11,18 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
+/**
+ * Spring Security短信验证码登录
+ * https://mrbird.cc/Spring-Security-SmsCode.html
+ *
+ * SmsAuthenticationFilter(AbstractAuthenticationProcessingFilter) -> AuthenticationManager
+ *  -> SmsAuthenticationProvider(AuthenticationProvider) -> UserDetailService -> UserDetails -> Authentication
+ *
+ * 进行一些配置，将这些组件组合起来形成一个和上面流程图对应的流程
+ *
+ * SmsAuthenticationFilter(AbstractAuthenticationProcessingFilter) -> AuthenticationManager
+ *  -> SmsAuthenticationProvider(AuthenticationProvider) -> UserDetailService -> UserDetails -> Authentication
+ */
 @Component
 public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
