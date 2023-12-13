@@ -59,7 +59,7 @@ public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSe
      *
      * 最后调用HttpSecurity的authenticationProvider方法指定了AuthenticationProvider为SmsAuthenticationProvider，并将SmsAuthenticationFilter过滤器添加到了UsernamePasswordAuthenticationFilter后面。
      *
-     * 到这里我们已经将短信验证码认证的各个组件组合起来了，最后一步需要做的是配置短信验证码校验过滤器，并且将短信验证码认证流程加入到Spring Security中。在BrowserSecurityConfig的configure方法中添加配置：
+     * SmsAuthenticationConfig 到这里我们已经将短信验证码认证的各个组件组合起来了，最后一步需要做的是配置短信验证码校验过滤器，并且将短信验证码认证流程加入到Spring Security中。在BrowserSecurityConfig的configure方法中添加配置：
      *
      *
      * 在这个流程中，我们自定义了一个名为SmsAuthenticationFilter的过滤器来拦截短信验证码登录请求，并将手机号码封装到一个叫SmsAuthenticationToken的对象中。在Spring Security中，认证处理都需要通过AuthenticationManager来代理，所以这里我们依旧将SmsAuthenticationToken交由AuthenticationManager处理。
@@ -76,15 +76,33 @@ public class SmsAuthenticationConfig extends SecurityConfigurerAdapter<DefaultSe
     @Override
     public void configure(HttpSecurity http) throws Exception {
         SmsAuthenticationFilter smsAuthenticationFilter = new SmsAuthenticationFilter();
+
         smsAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+
         smsAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         smsAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 
+        // FIXME 继承 AuthenticationProvider 用于进行身份验证， authenticate方法用于编写具体的身份认证逻辑。
         SmsAuthenticationProvider smsAuthenticationProvider = new SmsAuthenticationProvider();
+
+        /**
+         * UserDetailService`接口是用于从存储中提取用户详细信息的服务。
+         * 它主要负责从数据库或其他存储介质中加载用户的详细信息，并将其封装到`UserDetails`对象中。
+         * `UserDetails`对象包含用户的基本信息，如用户名、密码、角色等。
+         */
         smsAuthenticationProvider.setUserDetailService(userDetailService);
 
+        /**
+         * 在处理认证请求时，Spring Security 会使用 `UsernamePasswordAuthenticationFilter` 过滤器来提取用户提交的用户名和密码，
+         * 并将其传递给 `AuthenticationManager`** 进行验证。
+         *
+         * 如果验证成功，该过滤器会创建一个 `UsernamePasswordAuthenticationToken` 对象，
+         * 该对象实现了 `Authentication` 接口，并将该对象存储在 `SecurityContextHolder` 中。
+         */
         http.authenticationProvider(smsAuthenticationProvider)
-                .addFilterAfter(smsAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(smsAuthenticationFilter,
+                        // FIXME `UsernamePasswordAuthenticationFilter` 过滤器来提取用户提交的用户名和密码
+                        UsernamePasswordAuthenticationFilter.class);
 
     }
 }

@@ -91,8 +91,16 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
         return request.getParameter(mobileParameter);
     }
 
+    /**
+     * 设置认证请求的详细信息。
+     *
+     * @param request HttpServletRequest对象，用于获取请求的详细信息
+     * @param authRequest SmsAuthenticationToken对象，表示认证请求
+     * @throws IllegalArgumentException 如果request或authRequest为null，则抛出IllegalArgumentException异常
+     */
     protected void setDetails(HttpServletRequest request,
                               SmsAuthenticationToken authRequest) {
+        // FIXME 当类希望创建新的身份验证详细信息实例时由类调用。
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
     }
 

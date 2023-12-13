@@ -11,10 +11,10 @@ import java.util.Collection;
  * https://mrbird.cc/Spring-Security-SmsCode.html
  *
  *
- *
- *
  * AbstractAuthenticationToken是一个抽象类，用于表示一种身份验证令牌（Authentication Token）。
  * 它提供了身份验证令牌的一些通用属性和方法，可以被具体实现以表示不同类型的身份验证令牌
+ *
+ * AbstractAuthenticationToken 是用于存储认证信息的抽象类。
  *
  * 查看UsernamePasswordAuthenticationToken的源码，
  * 将其复制出来重命名为SmsAuthenticationToken，并稍作修改，修改后的代码如下所示：
@@ -42,9 +42,14 @@ public class SmsAuthenticationToken extends AbstractAuthenticationToken {
      * @param authorities 认证令牌的权限集合
      */
     public SmsAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+        // FIXME 使用提供的权限数组创建一个令牌。
+        // 参数： authorities – 此身份验证对象所代表的主体的GrantedAuthority的集合。
         super(authorities);
+
         this.principal = principal;
-        super.setAuthenticated(true); // must use super, as we override
+
+        // FIXME must use super, as we override
+        super.setAuthenticated(true);
     }
 
     /**
