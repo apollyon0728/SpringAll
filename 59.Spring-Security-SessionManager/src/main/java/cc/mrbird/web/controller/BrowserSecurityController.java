@@ -16,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author MrBird
+ * Spring Security Session管理
+ *
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
  */
 @RestController
 public class BrowserSecurityController {

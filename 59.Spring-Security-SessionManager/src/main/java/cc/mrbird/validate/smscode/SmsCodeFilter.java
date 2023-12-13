@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Spring Security Session管理
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
+ */
 @Component
 public class SmsCodeFilter extends OncePerRequestFilter {
 
@@ -43,7 +47,8 @@ public class SmsCodeFilter extends OncePerRequestFilter {
 
     private void validateCode(ServletWebRequest servletWebRequest) throws ServletRequestBindingException {
         String smsCodeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "smsCode");
-        String mobileInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "smsCode");
+//        String mobileInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "smsCode");
+        String mobileInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "mobile");
 
         SmsCode codeInSession = (SmsCode) sessionStrategy.getAttribute(servletWebRequest, ValidateController.SESSION_KEY_SMS_CODE + mobileInRequest);
 

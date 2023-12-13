@@ -10,11 +10,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author MrBird
+ * Spring Security Session管理
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
+ *
+ * SessionInformationExpiredStrategy
+ * 确定在 ConcurrentSessionFilter 中检测到过期会话时ConcurrentSessionFilter的行为
  */
 @Component
 public class MySessionExpiredStrategy implements SessionInformationExpiredStrategy {
 
+    /**
+     * 当检测到会话过期时的操作
+     * @param event 会话信息过期事件
+     * @throws IOException 输入输出异常
+     * @throws ServletException 服务异常
+     */
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
         HttpServletResponse response = event.getResponse();

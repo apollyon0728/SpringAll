@@ -10,6 +10,10 @@ import org.springframework.util.Assert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Spring Security Session管理
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
+ */
 public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String MOBILE_KEY = "mobile";
@@ -42,6 +46,12 @@ public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
         setDetails(request, authRequest);
 
+        /**
+         * FIXME 在Spring Security中，认证处理都需要通过AuthenticationManager来代理，
+         * 所以这里我们依旧将SmsAuthenticationToken交由AuthenticationManager处理。
+         * 接着我们需要定义一个支持处理SmsAuthenticationToken对象的SmsAuthenticationProvider，
+         * SmsAuthenticationProvider调用UserDetailService的loadUserByUsername方法来处理认证
+         */
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 

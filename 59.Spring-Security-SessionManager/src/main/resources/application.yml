@@ -6,6 +6,7 @@ server:
   session:
     timeout: 3600
 
+# 通过第三方容器来共享Session
 spring:
   session:
     store-type: redis

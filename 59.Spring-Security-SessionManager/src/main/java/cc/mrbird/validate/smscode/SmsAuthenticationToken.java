@@ -6,6 +6,10 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 
 import java.util.Collection;
 
+/**
+ * Spring Security Session管理
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
+ */
 public class SmsAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;

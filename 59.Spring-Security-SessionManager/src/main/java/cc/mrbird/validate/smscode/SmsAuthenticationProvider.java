@@ -7,6 +7,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Spring Security Session管理
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
+ */
 public class SmsAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailService userDetailService;

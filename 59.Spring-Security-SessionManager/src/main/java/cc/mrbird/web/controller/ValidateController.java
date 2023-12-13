@@ -17,6 +17,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * Spring Security Session管理
+ *
+ * https://mrbird.cc/Spring-Security-Session-Manage.html
+ */
 @RestController
 public class ValidateController {
 
